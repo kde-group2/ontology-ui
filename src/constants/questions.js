@@ -13,48 +13,48 @@ export const RESULTS = {
 
 export const QUESTIONS = [
   {
-    text: 'Households and Population for Accommodation Type',
+    text: 'Q1: Households and Persons',
     fields: [OPTIONS.TYPE],
     results: [OPTIONS.COUNTY, RESULTS.HOUSEHOLDS, RESULTS.PERSONS],
     action: actions.fetchHouseholdsAndPersonsByAccommodationType
   },
   {
-    text: 'Households and Population for Accommodation Type and County',
+    text: 'Q2: Households and Persons',
     fields: [OPTIONS.TYPE, OPTIONS.COUNTY],
     results: [RESULTS.HOUSEHOLDS, RESULTS.PERSONS]
   },
   {
-    text: 'Households for Accommodation Type and County',
+    text: 'Q3: Households',
     fields: [OPTIONS.TYPE, OPTIONS.COUNTY],
     results: [RESULTS.HOUSEHOLDS]
   },
   {
-    text: 'Persons for Accommodation Type and County',
+    text: 'Q4: Persons',
     fields: [OPTIONS.TYPE, OPTIONS.COUNTY],
     results: [RESULTS.PERSONS]
   },
   {
-    text: 'Persons for County',
+    text: 'Q5: Persons',
     fields: [OPTIONS.COUNTY],
     results: [OPTIONS.TYPE, RESULTS.PERSONS]
   },
   {
-    text: 'Households for County',
+    text: 'Q6: Households',
     fields: [OPTIONS.TYPE, OPTIONS.COUNTY],
     results: [OPTIONS.TYPE, RESULTS.HOUSEHOLDS]
   },
   {
-    text: 'Persons for Accommodation Type',
+    text: 'Q7: Persons',
     fields: [OPTIONS.TYPE],
     results: [OPTIONS.COUNTY, RESULTS.PERSONS]
   },
   {
-    text: 'Households for Accommodation Type',
+    text: 'Q8: Households',
     fields: [OPTIONS.TYPE],
     results: [OPTIONS.COUNTY, RESULTS.HOUSEHOLDS]
   },
   {
-    text: 'Households for Accommodation Type above range',
+    text: 'Q9: Households',
     fields: [OPTIONS.TYPE, OPTIONS.NUMBER_FILTER],
     results: [OPTIONS.COUNTY, RESULTS.HOUSEHOLDS]
   }

@@ -1,9 +1,7 @@
 import { List } from 'immutable';
 
-import QueryResult from '../records/QueryResult';
 import actionTypes from '../constants/actionTypes';
-import randomFlatColors from 'random-flat-colors';
-
+import { convertToQueryResultRecord } from '../util/resultUtil';
 
 const INITIAL_STATE = new List();
 
@@ -14,13 +12,7 @@ export default function results(state = INITIAL_STATE, { type, payload }) {
         return new List();
       }
 
-      return List(payload.map(r => {
-        const colour = randomFlatColors();
-        return new QueryResult({
-          colour,
-          ...r
-        });
-      }));
+      return List(payload.map(r => convertToQueryResultRecord(r)));
     }
     case actionTypes.REQUESTED_RESULTS: {
       return new List();

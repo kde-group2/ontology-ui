@@ -24,7 +24,8 @@ class Results extends Component {
         {results.includes(OPTIONS.TYPE) && <th>Accommodation Type</th>}
         {results.includes(RESULTS.HOUSEHOLDS) && <th>Num. Households</th>}
         {results.includes(RESULTS.PERSONS) && <th>Num. Persons</th>}
-        <th>Area</th>
+        {results.includes(RESULTS.HOUSEHOLDS) && results.includes(RESULTS.PERSONS) && <th>Avg Persons/Household</th>}
+        <th>Area (km sq.)</th>
       </tr>
     );
   }
@@ -44,7 +45,8 @@ class Results extends Component {
           {results.includes(OPTIONS.TYPE) && <th>{result.accommodationType}</th>}
           {results.includes(RESULTS.HOUSEHOLDS) && <th>{result.households}</th>}
           {results.includes(RESULTS.PERSONS) && <th>{result.persons}</th>}
-          <th>{result.area}</th>
+          {results.includes(RESULTS.HOUSEHOLDS) && results.includes(RESULTS.PERSONS) && <th>{(result.persons/result.households).toFixed(2)}</th>}
+          <th>{parseInt(result.area, 0)}</th>
         </tr>
       );
     });

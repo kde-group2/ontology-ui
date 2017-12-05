@@ -17,6 +17,7 @@
     "reactstrap": "^5.0.0-alpha.4",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
+    "spherical-geometry-js": "^1.0.1",
     "whatwg-fetch": "^2.0.3"
   },
   "scripts": {

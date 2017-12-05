@@ -12,6 +12,10 @@ body {
   margin-top: 40px;
 }
 
+.options-for p {
+  padding-top: 7px;
+}
+
 .results-section {
   margin-top: 40px;
 }

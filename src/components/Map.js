@@ -8,7 +8,7 @@ import mapStyle from '../constants/mapStyle';
 class Map extends Component {
 
   static propTypes = {
-    results: PropTypes.instanceOf(List)
+    results: PropTypes.instanceOf(List).isRequired
   };
 
   constructor(props) {
@@ -36,23 +36,21 @@ class Map extends Component {
     const { currentCounty } = this.state;
 
     return results.map(result => {
-      const coordinates = result.coordinates.map(c => {
-        return {lat: c.lattitude, lng: c.longitude}
-      });
-
-      const fillColor = currentCounty !== result ? result.colour : '#0000FF';
+      const fillColor = currentCounty !== result ? result.colour : '#446CB3';
       const fillOpacity = currentCounty !== result ? 0.65 : 0.85;
+
       const options = {
         fillColor,
         fillOpacity,
         strokeOpacity: 0.0
       };
+
       return (
         <Polygon
           draggable={false}
           key={result.id}
           onClick={() => this.setCurrentCounty(result)}
-          path={coordinates} options={options}
+          path={result.coordinates} options={options}
         />
       );
     });
@@ -63,8 +61,8 @@ class Map extends Component {
       return null;
     }
 
-    const averageLat = currentCounty.coordinates.reduce( ( p, c ) => p + c.lattitude, 0 ) / currentCounty.coordinates.length;
-    const averageLng = currentCounty.coordinates.reduce( ( p, c ) => p + c.longitude, 0 ) / currentCounty.coordinates.length;
+    const averageLat = currentCounty.coordinates.reduce( ( p, c ) => p + c.lat, 0 ) / currentCounty.coordinates.length;
+    const averageLng = currentCounty.coordinates.reduce( ( p, c ) => p + c.lng, 0 ) / currentCounty.coordinates.length;
 
     return (
       <InfoWindow
@@ -76,6 +74,7 @@ class Map extends Component {
           {currentCounty.accommodationType && <span>Accommodation Type: <b>{currentCounty.accommodationType}</b></span>}
           {currentCounty.households && <span>Households: <b>{currentCounty.households}</b></span>}
           {currentCounty.persons && <span>Persons: <b>{currentCounty.persons}</b></span>}
+          {currentCounty.persons && currentCounty.households && <span>Persons/Household: <b>{(currentCounty.persons/currentCounty.households).toFixed(2)}</b></span>}
         </div>
       </InfoWindow>
     );
