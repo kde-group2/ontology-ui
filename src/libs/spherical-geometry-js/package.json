@@ -1,0 +1,103 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "spherical-geometry-js",
+        "scope": null,
+        "escapedName": "spherical-geometry-js",
+        "name": "spherical-geometry-js",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/darragh/Google Drive/Drive/College/Fifth Year/Knowledge and Data Engineering/Project/ontology-ui"
+    ]
+  ],
+  "_from": "spherical-geometry-js@latest",
+  "_id": "spherical-geometry-js@1.0.1",
+  "_inCache": true,
+  "_location": "/spherical-geometry-js",
+  "_nodeVersion": "7.5.0",
+  "_npmOperationalInternal": {
+    "host": "packages-18-east.internal.npmjs.com",
+    "tmp": "tmp/spherical-geometry-js-1.0.1.tgz_1493119144713_0.25311434967443347"
+  },
+  "_npmUser": {
+    "name": "luandro",
+    "email": "luandro@gmail.com"
+  },
+  "_npmVersion": "4.1.2",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "spherical-geometry-js",
+    "scope": null,
+    "escapedName": "spherical-geometry-js",
+    "name": "spherical-geometry-js",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/spherical-geometry-js/-/spherical-geometry-js-1.0.1.tgz",
+  "_shasum": "524a65c4f733a19857f8ca3da3d428684bd8071d",
+  "_shrinkwrap": null,
+  "_spec": "spherical-geometry-js",
+  "_where": "/Users/darragh/Google Drive/Drive/College/Fifth Year/Knowledge and Data Engineering/Project/ontology-ui",
+  "bugs": {
+    "url": "https://github.com/NotWoods/spherical-geometry-js/issues"
+  },
+  "dependencies": {},
+  "description": "This library provides classes and functions for the computation of geometric data on the surface of the Earth. Code ported from the Google Maps Javascript API v3 and tubalmartin/spherical-geometry-php",
+  "devDependencies": {
+    "jsdoc-to-markdown": "^1.3.6",
+    "rollup": "^0.34.1",
+    "tape": "^4.6.0"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "524a65c4f733a19857f8ca3da3d428684bd8071d",
+    "tarball": "https://registry.npmjs.org/spherical-geometry-js/-/spherical-geometry-js-1.0.1.tgz"
+  },
+  "gitHead": "b003861fe58fc63a6f8926375291a0f5f1ae3dfd",
+  "homepage": "https://github.com/NotWoods/spherical-geometry-js#readme",
+  "jsnext:main": "src/index.js",
+  "keywords": [
+    "google",
+    "geometry",
+    "spherical",
+    "geometry",
+    "google",
+    "maps",
+    "google",
+    "maps",
+    "api",
+    "google",
+    "maps",
+    "javascript",
+    "geometric"
+  ],
+  "main": "cjs.js",
+  "maintainers": [
+    {
+      "name": "luandro",
+      "email": "luandro@gmail.com"
+    }
+  ],
+  "name": "spherical-geometry-js",
+  "optionalDependencies": {},
+  "readme": "# Spherical Geometry Library\n\nThis library provides classes and functions for the computation of geometric data on the surface of the Earth.\n\nThis library ports a small but useful subset of classes from the Google Maps Javascript API version 3, to use as a seperate module or in node.\n\n## How to use\n```javascript\nimport * as geometry from 'spherical-geometry-js';\n```\nOr import individual modules\n\n```javascript\nimport {computeArea} from 'spherical-geometry-js'\nimport computeArea from 'spherical-geometry-js/compute-area'\n```\n\nNotes:\n* The API is nearly identical to the Google Maps Javascript API.\n* `computeOffsetOrigin` has not yet been implemented\n* All computed lengths are returned in **meters**.\n\n## API\nClasses and libraries ported from the Google Maps Javascript API:\n* [google.maps.geometry.spherical](https://developers.google.com/maps/documentation/javascript/3.exp/reference#spherical)\n* [google.maps.LatLng](https://developers.google.com/maps/documentation/javascript/3.exp/reference#LatLng)\n\nFor convenience, LatLng includes some extra methods. \n\n```javascript\nconst latlng = new LatLng(123, 56);\n// Alias getters for longitude and latitude\n\nlatlng.x === latlng.lng();\nlatlng.y === latlng.lat();\n\nlatlng[0] === latlng.lng();\nlatlng[1] === latlng.lat();\n```\n\n```javascript\nimport {equalLatLngs} from 'spherical-geometry-js';\n\nequalLatLngs(latlng1, latlng2) === latlng1.equals(latlng2);\n```\n\nA function called convertLatLng can be used. It tries to convert an object into a LatLng.\n### convertLatLng(like, [Class]) ⇒ `Class`\nConverts an object into a LatLng. Tries a few different methods:\n1. If instanceof LatLng, clone and return the object\n2. If it has 'lat' and 'lng' properties...\n\n   2a. if the properties are functions (like Google LatLngs), \n       use the lat() and lng() values as lat and lng\n\t\t \n   2b. otherwise get lat and lng, parse them as floats and try them\n\n3. If it has 'lat' and *'long'* properties,\n   parse them as floats and return a LatLng\n4. If it has number values for 0 and 1, use 1 as latitude and 0\n   as longitude.\n5. If it has x and y properties, try using y as latitude and x and \n   longitude.\n#### Params\n* like `any` - an object resembling a LatLng\n* [Class] `function` - class constructor called as `new Class(latitude, longitude)`\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NotWoods/spherical-geometry-js.git"
+  },
+  "scripts": {
+    "docs": "rollup src/index.js | jsdoc2md > API.md",
+    "prepublish": "rollup -i src/index.js -o cjs.js -f cjs -m",
+    "test": "rollup _tests/spec.js -f iife -o _tests/build.js -g tape:test"
+  },
+  "version": "1.0.1"
+}
