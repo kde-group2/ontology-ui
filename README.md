@@ -8,3 +8,5 @@ $ cd ontology-ui
 $ npm install
 $ npm start
 ```
+
+Project Framework taken from [bigearsenal/react-create-app-redux](https://github.com/bigearsenal/react-create-app-redux)
