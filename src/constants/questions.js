@@ -1,5 +1,3 @@
-import * as actions from '../actions/index';
-
 export const OPTIONS = {
   COUNTY: 'COUNTY',
   NUMBER_FILTER: 'NUMBER_FILER',
@@ -11,51 +9,50 @@ export const RESULTS = {
   PERSONS: 'PERSONS'
 };
 
-export const QUESTIONS = [
-  {
-    text: 'Q1: Households and Persons',
+export const QUESTIONS = {
+  Q1: {
+    text: 'Households and Persons',
     fields: [OPTIONS.TYPE],
     results: [OPTIONS.COUNTY, RESULTS.HOUSEHOLDS, RESULTS.PERSONS],
-    action: actions.fetchHouseholdsAndPersonsByAccommodationType
   },
-  {
-    text: 'Q2: Households and Persons',
+  Q2: {
+    text: 'Households and Persons',
     fields: [OPTIONS.TYPE, OPTIONS.COUNTY],
     results: [RESULTS.HOUSEHOLDS, RESULTS.PERSONS]
   },
-  {
-    text: 'Q3: Households',
+  Q3: {
+    text: 'Households',
     fields: [OPTIONS.TYPE, OPTIONS.COUNTY],
     results: [RESULTS.HOUSEHOLDS]
   },
-  {
-    text: 'Q4: Persons',
+  Q4: {
+    text: 'Persons',
     fields: [OPTIONS.TYPE, OPTIONS.COUNTY],
     results: [RESULTS.PERSONS]
   },
-  {
-    text: 'Q5: Persons',
+  Q5: {
+    text: 'Persons',
     fields: [OPTIONS.COUNTY],
     results: [OPTIONS.TYPE, RESULTS.PERSONS]
   },
-  {
-    text: 'Q6: Households',
+  Q6: {
+    text: 'Households',
     fields: [OPTIONS.TYPE, OPTIONS.COUNTY],
     results: [OPTIONS.TYPE, RESULTS.HOUSEHOLDS]
   },
-  {
-    text: 'Q7: Persons',
+  Q7: {
+    text: 'Persons',
     fields: [OPTIONS.TYPE],
     results: [OPTIONS.COUNTY, RESULTS.PERSONS]
   },
-  {
-    text: 'Q8: Households',
+  Q8: {
+    text: 'Households',
     fields: [OPTIONS.TYPE],
     results: [OPTIONS.COUNTY, RESULTS.HOUSEHOLDS]
   },
-  {
-    text: 'Q9: Households',
+  Q9: {
+    text: 'Households',
     fields: [OPTIONS.TYPE, OPTIONS.NUMBER_FILTER],
     results: [OPTIONS.COUNTY, RESULTS.HOUSEHOLDS]
   }
-];
+};

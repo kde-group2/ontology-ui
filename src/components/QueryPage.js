@@ -5,17 +5,21 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
 import {
-  fetchHouseholdsAndPersonsByAccommodationType
+  fetchHouseholdsAndPersonsByAccommodationType,
+  fetchHouseholdsAndPersonsByCountyAndType
 } from '../actions';
 import ACCOMMODATION_TYPES from '../constants/accommodationTypes';
 import COUNTIES from '../constants/counties';
 import { OPTIONS, QUESTIONS } from '../constants/questions';
 import Results from './Results';
 
+const QUESTION_KEYS = Object.keys(QUESTIONS);
+
 class QueryPage extends Component {
 
   static propTypes = {
-    fetchHouseholdsAndPersonsByAccommodationType: PropTypes.func.isRequired
+    fetchHouseholdsAndPersonsByAccommodationType: PropTypes.func.isRequired,
+    fetchHouseholdsAndPersonsByCountyAndType: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -32,7 +36,7 @@ class QueryPage extends Component {
       dropdownOpen: false,
       selectedAccommodationType: null,
       selectedCounty: null,
-      selectedQuestion: QUESTIONS[0]
+      selectedQuestion: QUESTIONS[QUESTION_KEYS[0]]
     };
   }
 
@@ -43,16 +47,26 @@ class QueryPage extends Component {
   }
 
   fetchQuery() {
-    const { selectedAccommodationType, selectedCounty, selectedQuestion } = this.state;
+    const { currentFilterValue, selectedAccommodationType, selectedCounty, selectedQuestion } = this.state;
 
     if (selectedQuestion) {
       const { fields } = selectedQuestion;
-      if ((fields.includes(OPTIONS.COUNTY) && selectedCounty)
-          && (fields.includes(OPTIONS.TYPE) && selectedAccommodationType)) {
-        console.log('Not Making a network request');
-      } else {
-        const requestFunction = this.props[selectedQuestion.action.name];
-        requestFunction(selectedAccommodationType);
+      if (!((fields.includes(OPTIONS.COUNTY) && selectedCounty)
+          && (fields.includes(OPTIONS.TYPE) && selectedAccommodationType)
+         && (fields.includes(OPTIONS.NUMBER_FILTER) && currentFilterValue))) {
+        switch (selectedQuestion) {
+          case QUESTIONS.Q1: {
+            this.props.fetchHouseholdsAndPersonsByAccommodationType(selectedAccommodationType);
+            break;
+          }
+          case QUESTIONS.Q2: {
+            this.props.fetchHouseholdsAndPersonsByCountyAndType(selectedAccommodationType, selectedCounty);
+            break;
+          }
+          default: {
+            console.log('No action specified yet')
+          }
+        }
       }
     }
 
@@ -83,12 +97,13 @@ class QueryPage extends Component {
   }
 
   renderQuestions(questions) {
-    return questions.map((question, i) => {
+    return QUESTION_KEYS.map((key, i) => {
+      const question = questions[key];
       let text = question.text;
       text = question.fields.includes(OPTIONS.TYPE) ? `${text} for [Accommodation Type]` : text;
       text = question.fields.includes(OPTIONS.COUNTY) ? `${text} in [County]` : text;
       text = question.fields.includes(OPTIONS.NUMBER_FILTER) ? `${text} above [X]` : text;
-      return <DropdownItem key={i} onClick={() => this.selectQuestion(question)}>{text}</DropdownItem>
+      return <DropdownItem key={i} onClick={() => this.selectQuestion(question)}>{key}: {text}</DropdownItem>
     });
   }
 
@@ -110,7 +125,7 @@ class QueryPage extends Component {
     }
 
     return (
-      <Col md="3">
+      <Col sm="12" md="auto" className="query-option">
         <Row>
           <Col xs="2" className="options-for">
             <p>in</p>
@@ -134,7 +149,7 @@ class QueryPage extends Component {
     }
 
     return (
-      <Col md="3">
+      <Col sm="12" md="auto" className="query-option">
         <Row>
           <Col xs="2" className="options-for">
             <p>for</p>
@@ -158,7 +173,7 @@ class QueryPage extends Component {
     }
 
     return (
-      <Col md="3">
+      <Col sm="12" md="auto" className="query-option">
         <Row>
           <Col xs="2" className="options-for">
             <p>above</p>
@@ -181,7 +196,7 @@ class QueryPage extends Component {
       <div>
         <Container className="query-page">
           <Row>
-            <Col md="auto">
+            <Col sm="12" md="auto" className="query-option">
               <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                 <DropdownToggle caret>
                   {dropdownText}
@@ -210,7 +225,8 @@ const mapStateToProps = () => {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    fetchHouseholdsAndPersonsByAccommodationType
+    fetchHouseholdsAndPersonsByAccommodationType,
+    fetchHouseholdsAndPersonsByCountyAndType
   }, dispatch);
 }
 

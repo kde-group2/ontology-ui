@@ -12,6 +12,10 @@ body {
   margin-top: 40px;
 }
 
+.query-option {
+  margin-bottom: 10px;
+}
+
 .options-for p {
   padding-top: 7px;
 }
@@ -29,6 +33,16 @@ body {
   display: block;
 }
 
-.result-table {
+.loading-wrapper {
   min-height: 300px;
+}
+
+.loading-wrapper p {
+  padding: 30px;
+}
+
+.loader {
+  height: 200px;
+  display: block;
+  margin: auto;
 }

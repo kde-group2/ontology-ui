@@ -6,12 +6,14 @@ import PropTypes from 'prop-types';
 
 import Map from './Map';
 import { OPTIONS, RESULTS,  QUESTIONS } from '../constants/questions';
+import loader from '../imgs/loader.gif';
 
 class Results extends Component {
 
   static propTypes = {
+    isLoading: PropTypes.bool.isRequired,
     results: PropTypes.instanceOf(List).isRequired,
-    selectedQuestion: PropTypes.oneOf(QUESTIONS)
+    selectedQuestion: PropTypes.object
   };
 
   renderTableHeaderItems(selectedQuestion) {
@@ -52,8 +54,24 @@ class Results extends Component {
     });
   }
 
+  renderLoadingWrapper(isLoading, results) {
+    if (!isLoading && !results.isEmpty()) {
+      return false;
+    }
+
+    return (
+      <Row className="loading-wrapper">
+        <Col>
+          {isLoading && <img src={loader} className="loader" alt="Loading" />}
+          {!isLoading && results.isEmpty() && <p className="text-center">Select all of the options above to perform a query</p>}
+        </Col>
+      </Row>
+    );
+  }
+
   render() {
-    const { results, selectedQuestion } = this.props;
+    const { isLoading, results, selectedQuestion } = this.props;
+    console.log('Loading', isLoading);
 
     if (!selectedQuestion) {
       return null;
@@ -63,17 +81,18 @@ class Results extends Component {
       <div>
         <Container className="results-section">
           <Row className="result-table">
-              <Col>
-               <Table>
-                 <thead>
+            <Col>
+             <Table>
+               <thead>
                   {this.renderTableHeaderItems(selectedQuestion)}
-                 </thead>
+               </thead>
                  <tbody>
-                  {this.renderTableResultItems(results, selectedQuestion)}
+                   {this.renderTableResultItems(results, selectedQuestion)}
                  </tbody>
-               </Table>
-              </Col>
-            </Row>
+             </Table>
+            </Col>
+          </Row>
+          {this.renderLoadingWrapper(isLoading, results)}
         </Container>
         <Container fluid>
           <Row className="map">
@@ -91,8 +110,9 @@ class Results extends Component {
   }
 }
 
-const mapStateToProps = ({ results }) => {
+const mapStateToProps = ({ app: { isLoading }, results }) => {
   return {
+    isLoading,
     results
   };
 };

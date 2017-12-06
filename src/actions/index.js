@@ -9,7 +9,7 @@ const fetchedResults = (payload) => ({
 });
 
 const requestedResults = () => ({
-  type: actionTypes.FETCHED_RESULTS
+  type: actionTypes.REQUESTED_RESULTS
 });
 
 export const fetchHouseholdsAndPersonsByAccommodationType = (type) => {
@@ -20,3 +20,12 @@ export const fetchHouseholdsAndPersonsByAccommodationType = (type) => {
     }).catch(error => console.log('[API ERROR]', error));
   };
 };
+
+export const fetchHouseholdsAndPersonsByCountyAndType = (type, county) => {
+  return dispatch => {
+    dispatch(requestedResults());
+    return housingApi.getHouseholdsAndPersonsByCountyAndType(type, county).then(response => {
+      dispatch(fetchedResults(response));
+    }).catch(error => console.log('[API ERROR]', error));
+  };
+}
