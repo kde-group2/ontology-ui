@@ -1,5 +1,5 @@
 import randomFlatColors from 'random-flat-colors';
-import { computeArea } from 'spherical-geometry-js'
+import { computeArea } from '../libs/spherical-geometry-js'
 
 import QueryResult from '../records/QueryResult';
 
