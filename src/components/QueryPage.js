@@ -211,7 +211,11 @@ class QueryPage extends Component {
             {this.renderNumberFilter(selectedQuestion, currentFilterValue)}
           </Row>
         </Container>
-        <Results selectedQuestion={selectedQuestion} />
+        <Results
+          selectedCounty={selectedCounty}
+          selectedAccommodationType={selectedAccommodationType}
+          selectedQuestion={selectedQuestion}
+        />
       </div>
     );
   }

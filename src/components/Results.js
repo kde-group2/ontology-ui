@@ -5,7 +5,7 @@ import { List } from 'immutable';
 import PropTypes from 'prop-types';
 
 import Map from './Map';
-import { OPTIONS, RESULTS,  QUESTIONS } from '../constants/questions';
+import { OPTIONS, RESULTS } from '../constants/questions';
 import loader from '../imgs/loader.gif';
 
 class Results extends Component {
@@ -13,6 +13,8 @@ class Results extends Component {
   static propTypes = {
     isLoading: PropTypes.bool.isRequired,
     results: PropTypes.instanceOf(List).isRequired,
+    selectedAccommodationType: PropTypes.string,
+    selectedCounty: PropTypes.string,
     selectedQuestion: PropTypes.object
   };
 
@@ -70,8 +72,7 @@ class Results extends Component {
   }
 
   render() {
-    const { isLoading, results, selectedQuestion } = this.props;
-    console.log('Loading', isLoading);
+    const { isLoading, results, selectedAccommodationType, selectedCounty, selectedQuestion } = this.props;
 
     if (!selectedQuestion) {
       return null;
@@ -102,6 +103,9 @@ class Results extends Component {
               containerElement={<div style={{ height: `100vh`, width: `100vw` }} />}
               mapElement={<div style={{ height: `100%` }} />}
               results={results}
+              selectedCounty={selectedCounty}
+              selectedAccommodationType={selectedAccommodationType}
+              selectedQuestion={selectedQuestion}
             />
           </Row>
         </Container>

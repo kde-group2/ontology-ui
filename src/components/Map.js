@@ -4,11 +4,16 @@ import PropTypes from 'prop-types';
 import { List } from 'immutable';
 
 import mapStyle from '../constants/mapStyle';
+import COUNTIES from '../constants/counties';
+import ACCOMMODATION_TYPES from '../constants/accommodationTypes';
 
 class Map extends Component {
 
   static propTypes = {
-    results: PropTypes.instanceOf(List).isRequired
+    results: PropTypes.instanceOf(List).isRequired,
+    selectedAccommodationType: PropTypes.string,
+    selectedCounty: PropTypes.string,
+    selectedQuestion: PropTypes.object
   };
 
   constructor(props) {
@@ -56,7 +61,7 @@ class Map extends Component {
     });
   }
 
-  renderInfoBox(currentCounty) {
+  renderInfoBox(currentCounty, selectedCounty, selectedAccommodationType) {
     if (!currentCounty) {
       return null;
     }
@@ -70,7 +75,8 @@ class Map extends Component {
         onCloseClick={() => this.setCurrentCounty(null)}
       >
         <div className="map-info-box">
-          <h5>{currentCounty.county}</h5>
+          <h5>{currentCounty.county || COUNTIES[selectedCounty]}</h5>
+          {selectedAccommodationType && <p>For type: <b>{ACCOMMODATION_TYPES[selectedAccommodationType]}</b></p>}
           {currentCounty.accommodationType && <span>Accommodation Type: <b>{currentCounty.accommodationType}</b></span>}
           {currentCounty.households && <span>Households: <b>{currentCounty.households}</b></span>}
           {currentCounty.persons && <span>Persons: <b>{currentCounty.persons}</b></span>}
@@ -81,7 +87,7 @@ class Map extends Component {
   }
 
   render() {
-    const { results } = this.props;
+    const { results, selectedCounty, selectedAccommodationType, selectedQuestion } = this.props;
     const { currentCounty } = this.state;
 
     return (
@@ -91,7 +97,7 @@ class Map extends Component {
         defaultOptions={{ styles: mapStyle }}
       >
         {this.renderPolygons(results)}
-        {this.renderInfoBox(currentCounty)}
+        {this.renderInfoBox(currentCounty, selectedCounty, selectedAccommodationType)}
       </GoogleMap>
     );
   }
