@@ -6,6 +6,11 @@ import { List } from 'immutable';
 import mapStyle from '../constants/mapStyle';
 import COUNTIES from '../constants/counties';
 import ACCOMMODATION_TYPES from '../constants/accommodationTypes';
+import FILL_CONFIG from '../constants/mapStyle';
+
+const DEFAULT_MAP_ZOOM = 7;
+const DEFAULT_MAP_LATITUDE = 53.3942442;
+const DEFAULT_MAP_LONGITUDE = -7.6338757;
 
 class Map extends Component {
 
@@ -41,8 +46,8 @@ class Map extends Component {
     const { currentCounty } = this.state;
 
     return results.map(result => {
-      const fillColor = currentCounty !== result ? result.colour : '#446CB3';
-      const fillOpacity = currentCounty !== result ? 0.65 : 0.85;
+      const fillColor = currentCounty !== result ? result.colour : FILL_CONFIG.COLOUR_UPPER;
+      const fillOpacity = currentCounty !== result ? FILL_CONFIG.OPACITY_LOWER : FILL_CONFIG.OPACITY_UPPER;
 
       const options = {
         fillColor,
@@ -92,8 +97,8 @@ class Map extends Component {
 
     return (
       <GoogleMap
-        defaultZoom={7}
-        defaultCenter={{ lat: 53.3942442, lng:-7.6338757 }}
+        defaultZoom={DEFAULT_MAP_ZOOM}
+        defaultCenter={{lat: DEFAULT_MAP_LATITUDE, lng: DEFAULT_MAP_LONGITUDE}}
         defaultOptions={{ styles: mapStyle }}
       >
         {this.renderPolygons(results)}
