@@ -1,3 +1,9 @@
+export const FILL_CONFIG = {
+  COLOUR_UPPER:'#446CB3',
+  OPACITY_LOWER: 0.65,
+  OPACITY_UPPER: 0.85,
+}
+
 export default [
   {
     "featureType": "all",
