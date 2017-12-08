@@ -5,12 +5,15 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
 import {
+  changedQuestion,
   fetchHouseholdsAndPersonsByAccommodationType,
-  fetchHouseholdsAndPersonsByCountyAndType
+  fetchHouseholdsAndPersonsByCountyAndType,
+  fetchHouseholdsByCountyByAccType,
+  fetchPersonsByCountyByAccType,
 } from '../actions';
 import ACCOMMODATION_TYPES from '../constants/accommodationTypes';
 import COUNTIES from '../constants/counties';
-import { OPTIONS, QUESTIONS } from '../constants/questions';
+import { OPTIONS, QUESTIONS, RESULTS } from '../constants/questions';
 import Results from './Results';
 
 const QUESTION_KEYS = Object.keys(QUESTIONS);
@@ -18,8 +21,11 @@ const QUESTION_KEYS = Object.keys(QUESTIONS);
 class QueryPage extends Component {
 
   static propTypes = {
+    changedQuestion: PropTypes.func.isRequired,
     fetchHouseholdsAndPersonsByAccommodationType: PropTypes.func.isRequired,
-    fetchHouseholdsAndPersonsByCountyAndType: PropTypes.func.isRequired
+    fetchHouseholdsAndPersonsByCountyAndType: PropTypes.func.isRequired,
+    fetchHouseholdsByCountyByAccType: PropTypes.func.isRequired,
+    fetchPersonsByCountyByAccType: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -63,6 +69,38 @@ class QueryPage extends Component {
             this.props.fetchHouseholdsAndPersonsByCountyAndType(selectedAccommodationType, selectedCounty);
             break;
           }
+          case QUESTIONS.Q3: {
+            this.props.fetchHouseholdsByCountyByAccType(selectedAccommodationType, selectedCounty);
+            break;
+          }
+          case QUESTIONS.Q4: {
+            this.props.fetchPersonsByCountyByAccType(selectedAccommodationType, selectedCounty);
+            break;
+          }
+          case QUESTIONS.Q5: {
+            this.props.fetchPersonsByCountyByAccType(null, selectedCounty);
+            break;
+          }
+          case QUESTIONS.Q6: {
+            this.props.fetchHouseholdsByCountyByAccType(null, selectedCounty);
+            break;
+          }
+          case QUESTIONS.Q7: {
+            this.props.fetchPersonsByCountyByAccType(selectedAccommodationType);
+            break;
+          }
+          case QUESTIONS.Q8: {
+            this.props.fetchHouseholdsByCountyByAccType(selectedAccommodationType);
+            break;
+          }
+          case QUESTIONS.Q9: {
+            this.props.fetchHouseholdsByCountyByAccType(selectedAccommodationType, null, currentFilterValue);
+            break;
+          }
+          case QUESTIONS.Q10: {
+            this.props.fetchPersonsByCountyByAccType(selectedAccommodationType, null, currentFilterValue);
+            break;
+          }
           default: {
             console.log('No action specified yet')
           }
@@ -75,7 +113,7 @@ class QueryPage extends Component {
   selectQuestion(selectedQuestion) {
     this.setState({
       selectedQuestion
-    });
+    }, () => this.props.changedQuestion());
   }
 
   selectCounty({target: { value: selectedCounty } }) {
@@ -100,8 +138,8 @@ class QueryPage extends Component {
     return QUESTION_KEYS.map((key, i) => {
       const question = questions[key];
       let text = question.text;
-      text = question.fields.includes(OPTIONS.TYPE) ? `${text} for [Accommodation Type]` : text;
-      text = question.fields.includes(OPTIONS.COUNTY) ? `${text} in [County]` : text;
+      text = question.fields.includes(OPTIONS.TYPE) ? `${text} living in [Accommodation Type]` : `${text} by Accommodation Type`;
+      text = question.fields.includes(OPTIONS.COUNTY) ? `${text} in [County]` : `${text} by County`;
       text = question.fields.includes(OPTIONS.NUMBER_FILTER) ? `${text} above [X]` : text;
       return <DropdownItem key={i} onClick={() => this.selectQuestion(question)}>{key}: {text}</DropdownItem>
     });
@@ -151,10 +189,10 @@ class QueryPage extends Component {
     return (
       <Col sm="12" md="auto" className="query-option">
         <Row>
-          <Col xs="2" className="options-for">
-            <p>for</p>
+          <Col xs="4" className="options-for">
+            <p>living in</p>
           </Col>
-          <Col xs="10">
+          <Col xs="8">
             <FormGroup>
               <Input type="select" defaultValue={selectedAccommodationType} onChange={this.selectAccommodationType}>
                 <option disabled selected>Accommodation Type</option>
@@ -190,7 +228,11 @@ class QueryPage extends Component {
 
   render() {
     const { currentFilterValue, selectedAccommodationType, selectedCounty, selectedQuestion } = this.state;
-    const dropdownText = selectedQuestion ? selectedQuestion.text : 'Choose a Query';
+    let dropdownText = selectedQuestion ? selectedQuestion.text : 'Choose a Query';
+    if (selectedQuestion) {
+      dropdownText = !selectedQuestion.fields.includes(OPTIONS.TYPE) ? `${dropdownText} by Accommodation Type` : dropdownText;
+      dropdownText = !selectedQuestion.fields.includes(OPTIONS.COUNTY) ? `${dropdownText} by County` : dropdownText;
+    }
 
     return (
       <div>
@@ -229,8 +271,11 @@ const mapStateToProps = () => {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
+    changedQuestion,
     fetchHouseholdsAndPersonsByAccommodationType,
-    fetchHouseholdsAndPersonsByCountyAndType
+    fetchHouseholdsAndPersonsByCountyAndType,
+    fetchHouseholdsByCountyByAccType,
+    fetchPersonsByCountyByAccType
   }, dispatch);
 }
 

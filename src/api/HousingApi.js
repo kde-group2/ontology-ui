@@ -13,6 +13,22 @@ class HousingApi extends  Api {
       county
     });
   }
+
+  getHouseholdsByCountyByAccType(acctype, county, above) {
+    return this.get('household/bycounty/byacctype', {
+      above,
+      acctype,
+      county
+    });
+  }
+
+  getPersonsByCountyByAccType(acctype, county, above) {
+    return this.get('persons/bycounty/byacctype', {
+      above,
+      acctype,
+      county
+    });
+  }
 }
 
 export default HousingApi;

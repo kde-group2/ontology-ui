@@ -9,7 +9,7 @@ class Api {
       return '';
     }
 
-    return '?' + Object.keys(params).reduce((a, key) => { a.push(key + '=' + encodeURIComponent(params[key])); return a }, []).join('&')
+    return '?' + Object.keys(params).reduce((a, key) => { params[key] && a.push(key + '=' + encodeURIComponent(params[key])); return a }, []).join('&')
   }
 
   checkStatus(response) {

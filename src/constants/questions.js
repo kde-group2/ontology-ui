@@ -37,7 +37,7 @@ export const QUESTIONS = {
   },
   Q6: {
     text: 'Households',
-    fields: [OPTIONS.TYPE, OPTIONS.COUNTY],
+    fields: [OPTIONS.COUNTY],
     results: [OPTIONS.TYPE, RESULTS.HOUSEHOLDS]
   },
   Q7: {
@@ -54,5 +54,10 @@ export const QUESTIONS = {
     text: 'Households',
     fields: [OPTIONS.TYPE, OPTIONS.NUMBER_FILTER],
     results: [OPTIONS.COUNTY, RESULTS.HOUSEHOLDS]
+  },
+  Q10: {
+    text: 'Persons',
+    fields: [OPTIONS.TYPE, OPTIONS.NUMBER_FILTER],
+    results: [OPTIONS.COUNTY, RESULTS.PERSONS]
   }
 };

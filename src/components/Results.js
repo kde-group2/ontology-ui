@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Col, Container, Row, Table } from 'reactstrap';
+import { Col, Container, Row } from 'reactstrap';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 import PropTypes from 'prop-types';
 
 import Map from './Map';
-import { OPTIONS, RESULTS } from '../constants/questions';
 import loader from '../imgs/loader.gif';
+import ResultsTable from "./ResultsTable";
 
 class Results extends Component {
 
@@ -17,44 +17,6 @@ class Results extends Component {
     selectedCounty: PropTypes.string,
     selectedQuestion: PropTypes.object
   };
-
-  renderTableHeaderItems(selectedQuestion) {
-    const { results } = selectedQuestion;
-
-    return (
-      <tr>
-        <th>#</th>
-        {results.includes(OPTIONS.COUNTY) && <th>County</th>}
-        {results.includes(OPTIONS.TYPE) && <th>Accommodation Type</th>}
-        {results.includes(RESULTS.HOUSEHOLDS) && <th>Num. Households</th>}
-        {results.includes(RESULTS.PERSONS) && <th>Num. Persons</th>}
-        {results.includes(RESULTS.HOUSEHOLDS) && results.includes(RESULTS.PERSONS) && <th>Avg Persons/Household</th>}
-        <th>Area (km sq.)</th>
-      </tr>
-    );
-  }
-
-  renderTableResultItems(queryResults, selectedQuestion) {
-    const { results } = selectedQuestion;
-
-    if (!queryResults || queryResults.isEmpty()) {
-      return null;
-    }
-
-    return queryResults.map((result, i) => {
-      return (
-        <tr key={i}>
-          <th>{i + 1}</th>
-          {results.includes(OPTIONS.COUNTY) && <th>{result.county}</th>}
-          {results.includes(OPTIONS.TYPE) && <th>{result.accommodationType}</th>}
-          {results.includes(RESULTS.HOUSEHOLDS) && <th>{result.households}</th>}
-          {results.includes(RESULTS.PERSONS) && <th>{result.persons}</th>}
-          {results.includes(RESULTS.HOUSEHOLDS) && results.includes(RESULTS.PERSONS) && <th>{(result.persons/result.households).toFixed(2)}</th>}
-          <th>{parseInt(result.area, 0)}</th>
-        </tr>
-      );
-    });
-  }
 
   renderLoadingWrapper(isLoading, results) {
     if (!isLoading && !results.isEmpty()) {
@@ -83,14 +45,10 @@ class Results extends Component {
         <Container className="results-section">
           <Row className="result-table">
             <Col>
-             <Table>
-               <thead>
-                  {this.renderTableHeaderItems(selectedQuestion)}
-               </thead>
-                 <tbody>
-                   {this.renderTableResultItems(results, selectedQuestion)}
-                 </tbody>
-             </Table>
+              <ResultsTable
+                results={results}
+                selectedQuestion={selectedQuestion}
+              />
             </Col>
           </Row>
           {this.renderLoadingWrapper(isLoading, results)}

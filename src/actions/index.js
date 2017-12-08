@@ -28,4 +28,30 @@ export const fetchHouseholdsAndPersonsByCountyAndType = (type, county) => {
       dispatch(fetchedResults(response));
     }).catch(error => console.log('[API ERROR]', error));
   };
-}
+};
+
+export const fetchHouseholdsByCountyByAccType = (type, county, above) => {
+  return dispatch => {
+    dispatch(requestedResults());
+    return housingApi.getHouseholdsByCountyByAccType(type, county, above).then(response => {
+      dispatch(fetchedResults(response));
+    }).catch(error => console.log('[API ERROR]', error));
+  };
+};
+
+export const fetchPersonsByCountyByAccType = (type, county, above) => {
+  return dispatch => {
+    dispatch(requestedResults());
+    return housingApi.getPersonsByCountyByAccType(type, county, above).then(response => {
+      dispatch(fetchedResults(response));
+    }).catch(error => console.log('[API ERROR]', error));
+  };
+};
+
+export const changedQuestion = () => {
+  return dispatch => {
+    return dispatch({
+      type: actionTypes.CHANEGED_QUESTION
+    });
+  };
+};

@@ -14,6 +14,7 @@ export default function results(state = INITIAL_STATE, { type, payload }) {
 
       return List(payload.map(r => convertToQueryResultRecord(r)));
     }
+    case actionTypes.CHANEGED_QUESTION:
     case actionTypes.REQUESTED_RESULTS: {
       return new List();
     }
